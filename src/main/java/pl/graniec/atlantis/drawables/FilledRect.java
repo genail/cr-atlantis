@@ -59,6 +59,10 @@ public abstract class FilledRect extends Drawable {
 	public void setFillColor(Color fillColor) {
 		this.fillColor = fillColor;
 	}
+	
+	public void setFillColor(int color) {
+		this.fillColor.set(color);
+	}
 
 	/**
 	 * @return the fillColor

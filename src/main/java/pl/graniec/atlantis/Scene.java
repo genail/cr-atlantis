@@ -40,6 +40,9 @@ public abstract class Scene {
 	/** All drawables added to scene. First is one on the bottom, last on top. */
 	private final Set<Drawable> drawables = new LinkedHashSet<Drawable>();
 	
+	/** Tells if scene is loaded */
+	boolean loaded;
+	
 	/**
 	 * Adds new <code>drawable</code> to the scene. Keep on mind that
 	 * you can add every Drawable object only once to one scene.
@@ -47,7 +50,9 @@ public abstract class Scene {
 	 * @param drawable
 	 */
 	public void add(Drawable drawable) {
-		drawables.add(drawable);
+		synchronized (drawables) {
+			drawables.add(drawable);
+		}
 	}
 	
 	/**
@@ -62,14 +67,19 @@ public abstract class Scene {
 	 * @param drawable The drawable to remove from scene.
 	 */
 	public void remove(Drawable drawable) {
-		drawables.remove(drawable);
+		synchronized (drawables) {
+			drawables.remove(drawable);
+		}
 	}
 
 	/**
 	 * @param g
 	 */
 	public void drawScene(Graphics g) {
-		// TODO Auto-generated method stub
-		
+		synchronized (drawables) {
+			for (Drawable d : drawables) {
+				d.draw(g);
+			}
+		}
 	}
 }

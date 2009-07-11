@@ -68,6 +68,4 @@ public abstract class Core {
 	
 	public abstract Window newWindow();
 	
-	public abstract Graphics newGraphics();
-	
 }

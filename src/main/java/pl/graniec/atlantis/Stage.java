@@ -126,6 +126,10 @@ public class Stage {
 				currentScene = sceneStack.peek();
 			}
 			
+			if (!currentScene.loaded) {
+				currentScene.load();
+			}
+			
 			currentScene.drawScene(g);
 			
 		} catch (EmptyStackException e) {
