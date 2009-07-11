@@ -26,31 +26,11 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package pl.graniec.atlantis;
+package pl.graniec.atlantis.effects;
 
 /**
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public interface Graphics {
-	/**
-	 * Clears the screen using given color.
-	 * <p>
-	 * You can specify alpha channel of clearing that
-	 * background can be partly or fully transparent.
-	 * 
-	 * @param color Clear color.
-	 */
-	void clear(int color);
-	
-	int getHeight();
-	
-	int getWidth();
-	
-	/**
-	 * Sets the brush color.
-	 * 
-	 * @param color Brush color.
-	 */
-	void setColor(int color);
+public abstract class ColorInvert extends Effect {
 }

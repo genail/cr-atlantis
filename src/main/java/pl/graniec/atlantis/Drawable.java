@@ -30,6 +30,8 @@ package pl.graniec.atlantis;
 
 import java.util.Stack;
 
+import pl.graniec.atlantis.effects.Effect;
+
 /**
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
@@ -38,14 +40,33 @@ public abstract class Drawable {
 	
 	private Stack<Effect> effectStack = new Stack<Effect>();
 	
+	public void addEffect(Effect effect) {
+		synchronized (effectStack) {
+			effectStack.add(effect);
+		}
+	}
+	
+	public void clearEffects() {
+		synchronized (effectStack) {
+			effectStack.clear();
+		}
+	}
+	
 	/**
 	 * Draws the drawable object into a scene.
 	 * 
 	 * @param g The graphics context.
 	 */
 	public abstract void draw(Graphics g);
-	
-	public void putEffect(Effect effect) {
-		
+
+	protected Effect[] getEffectStack() {
+		synchronized (effectStack) {
+			return effectStack.toArray(new Effect[effectStack.size()]);
+		}
 	}
+	
+	/**
+	 * @param timeElapsed
+	 */
+	public abstract void update(int elapsedTime);
 }

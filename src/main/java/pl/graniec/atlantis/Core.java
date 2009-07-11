@@ -29,6 +29,7 @@
 package pl.graniec.atlantis;
 
 import pl.graniec.atlantis.drawables.FilledRect;
+import pl.graniec.atlantis.effects.ColorInvert;
 
 /**
  * Core of Atlantis engine. The Core will provide all implementations
@@ -67,5 +68,7 @@ public abstract class Core {
 	public abstract FilledRect newFilledRect();
 	
 	public abstract Window newWindow();
+	
+	public abstract ColorInvert newColorInvert();
 	
 }

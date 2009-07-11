@@ -82,4 +82,12 @@ public abstract class Scene {
 			}
 		}
 	}
+	
+	public void update(int timeElapsed) {
+		synchronized (drawables) {
+			for (Drawable d : drawables) {
+				d.update(timeElapsed);
+			}
+		}
+	}
 }

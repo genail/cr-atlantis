@@ -77,5 +77,17 @@ public abstract class FilledRect extends Drawable {
 		this.width.set(width);
 		this.height.set(height);
 	}
+	
+	/* (non-Javadoc)
+	 * @see pl.graniec.atlantis.Drawable#update(int)
+	 */
+	@Override
+	public void update(int elapsedTime) {
+		x.update(elapsedTime);
+		y.update(elapsedTime);
+		width.update(elapsedTime);
+		height.update(elapsedTime);
+		fillColor.update(elapsedTime);
+	}
 
 }

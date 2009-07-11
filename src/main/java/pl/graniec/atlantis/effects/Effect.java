@@ -26,31 +26,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package pl.graniec.atlantis;
+package pl.graniec.atlantis.effects;
 
 /**
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public interface Graphics {
+public abstract class Effect {
+
+	/** Is this effect enabled? */
+	private boolean enabled = true;
+
 	/**
-	 * Clears the screen using given color.
-	 * <p>
-	 * You can specify alpha channel of clearing that
-	 * background can be partly or fully transparent.
-	 * 
-	 * @param color Clear color.
+	 * @param enabled the enabled to set
 	 */
-	void clear(int color);
-	
-	int getHeight();
-	
-	int getWidth();
-	
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
 	/**
-	 * Sets the brush color.
-	 * 
-	 * @param color Brush color.
+	 * @return the enabled
 	 */
-	void setColor(int color);
+	public boolean isEnabled() {
+		return enabled;
+	}
+	
 }

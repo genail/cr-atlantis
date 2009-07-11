@@ -89,6 +89,9 @@ public class Stage {
 	/** Scene stack */
 	private static Stack<Scene> sceneStack = new Stack<Scene>();
 	
+	/** Canvas resolution */
+	private static int width, height;
+	
 	public static Scene popScene() {
 		try {
 			return sceneStack.pop();
@@ -118,7 +121,28 @@ public class Stage {
 	/** Refresh rate */
 	private int refreshRate = DEFAULT_REFRESH_RATE;
 	
+	/** Last draw time */
+	private static long lastDrawTime;
+	
+	/**
+	 * @return the height
+	 */
+	public static int getHeight() {
+		return height;
+	}
+	
+	/**
+	 * @return the width
+	 */
+	public static int getWidth() {
+		return width;
+	}
+	
 	public static void repaintStage(Graphics g) {
+		
+		Stage.width = g.getWidth();
+		Stage.height = g.getHeight();
+		
 		try {
 			Scene currentScene;
 			
@@ -126,10 +150,17 @@ public class Stage {
 				currentScene = sceneStack.peek();
 			}
 			
+			long now = System.currentTimeMillis();
+			
 			if (!currentScene.loaded) {
 				currentScene.load();
+				currentScene.loaded = true;
+			} else {
+				currentScene.update((int) (now - lastDrawTime));
 			}
 			
+			lastDrawTime = now;
+
 			currentScene.drawScene(g);
 			
 		} catch (EmptyStackException e) {
