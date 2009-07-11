@@ -28,46 +28,48 @@
  */
 package pl.graniec.atlantis;
 
-import pl.graniec.atlantis.drawables.FilledRect;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
- * Core of Atlantis engine. The Core will provide all implementations
- * for Atiantis interface. All you must do is to instance Core
- * implementation of your choice.
- * 
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public abstract class Core {
+public abstract class Scene {
 	
-	/** Current Core */
-	private static Core current;
+	/** All drawables added to scene. First is one on the bottom, last on top. */
+	private final Set<Drawable> drawables = new LinkedHashSet<Drawable>();
 	
 	/**
-	 * Provides the current Core object.
-	 * <p>
-	 * Usually it contains first created Core implementation,
-	 * unless {@link #makeCurrent()} is called manually.
-	 * @return
+	 * Adds new <code>drawable</code> to the scene. Keep on mind that
+	 * you can add every Drawable object only once to one scene.
+	 *   
+	 * @param drawable
 	 */
-	public static Core getCurrent() {
-		return current;
+	public void add(Drawable drawable) {
+		drawables.add(drawable);
 	}
 	
 	/**
-	 * Makes the current Core implementation current.
-	 * <p>
-	 * If you're using only one implementation of Core then
-	 * this is probably not what you want to do.
+	 * All resources loading should be in this method.
 	 */
-	public void makeCurrent() {
-		Core.current = this;
+	public abstract void load();
+	
+	/**
+	 * Removes <code>drawable</code> from scene if it exists in it.
+	 * If not then nothing happens.
+	 * 
+	 * @param drawable The drawable to remove from scene.
+	 */
+	public void remove(Drawable drawable) {
+		drawables.remove(drawable);
 	}
-	
-	public abstract FilledRect newFilledRect();
-	
-	public abstract Window newWindow();
-	
-	public abstract Graphics newGraphics();
-	
+
+	/**
+	 * @param g
+	 */
+	public void drawScene(Graphics g) {
+		// TODO Auto-generated method stub
+		
+	}
 }

@@ -28,46 +28,33 @@
  */
 package pl.graniec.atlantis;
 
-import pl.graniec.atlantis.drawables.FilledRect;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 
 /**
- * Core of Atlantis engine. The Core will provide all implementations
- * for Atiantis interface. All you must do is to instance Core
- * implementation of your choice.
- * 
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public abstract class Core {
-	
-	/** Current Core */
-	private static Core current;
-	
-	/**
-	 * Provides the current Core object.
-	 * <p>
-	 * Usually it contains first created Core implementation,
-	 * unless {@link #makeCurrent()} is called manually.
-	 * @return
-	 */
-	public static Core getCurrent() {
-		return current;
+public class EMessage {
+	public static String prepare(String message, Exception e) {
+		StringBuffer buf = new StringBuffer();
+		buf.append(message);
+		buf.append("\n");
+		buf.append("--- Stack Trace ---\n");
+		
+		final StringWriter sw = new StringWriter();
+		final PrintWriter pw = new PrintWriter(sw);
+		
+		e.printStackTrace(pw);
+		
+		pw.close();
+		
+		buf.append(sw.getBuffer());
+		
+		return buf.toString();
 	}
 	
-	/**
-	 * Makes the current Core implementation current.
-	 * <p>
-	 * If you're using only one implementation of Core then
-	 * this is probably not what you want to do.
-	 */
-	public void makeCurrent() {
-		Core.current = this;
+	public static void main(String[] args) {
+		System.out.println(prepare("abc", new Exception("aaa")));
 	}
-	
-	public abstract FilledRect newFilledRect();
-	
-	public abstract Window newWindow();
-	
-	public abstract Graphics newGraphics();
-	
 }

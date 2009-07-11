@@ -28,46 +28,24 @@
  */
 package pl.graniec.atlantis;
 
-import pl.graniec.atlantis.drawables.FilledRect;
+import java.util.Stack;
 
 /**
- * Core of Atlantis engine. The Core will provide all implementations
- * for Atiantis interface. All you must do is to instance Core
- * implementation of your choice.
- * 
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public abstract class Core {
+public abstract class Drawable {
 	
-	/** Current Core */
-	private static Core current;
-	
-	/**
-	 * Provides the current Core object.
-	 * <p>
-	 * Usually it contains first created Core implementation,
-	 * unless {@link #makeCurrent()} is called manually.
-	 * @return
-	 */
-	public static Core getCurrent() {
-		return current;
-	}
+	private Stack<Effect> effectStack = new Stack<Effect>();
 	
 	/**
-	 * Makes the current Core implementation current.
-	 * <p>
-	 * If you're using only one implementation of Core then
-	 * this is probably not what you want to do.
+	 * Draws the drawable object into a scene.
+	 * 
+	 * @param g The graphics context.
 	 */
-	public void makeCurrent() {
-		Core.current = this;
+	public abstract void draw(Graphics g);
+	
+	public void putEffect(Effect effect) {
+		
 	}
-	
-	public abstract FilledRect newFilledRect();
-	
-	public abstract Window newWindow();
-	
-	public abstract Graphics newGraphics();
-	
 }

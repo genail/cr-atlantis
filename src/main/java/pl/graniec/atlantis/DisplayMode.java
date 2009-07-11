@@ -28,46 +28,77 @@
  */
 package pl.graniec.atlantis;
 
-import pl.graniec.atlantis.drawables.FilledRect;
-
 /**
- * Core of Atlantis engine. The Core will provide all implementations
- * for Atiantis interface. All you must do is to instance Core
- * implementation of your choice.
- * 
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public abstract class Core {
+public class DisplayMode {
 	
-	/** Current Core */
-	private static Core current;
+	private static final int DEFAULT_REFRESH_RATE = 60;
+
+	private static final int DEFAULT_COLOR_DEPTH = 32;
+
+	/** Width and height of draw area */
+	private final int width, height;
 	
-	/**
-	 * Provides the current Core object.
-	 * <p>
-	 * Usually it contains first created Core implementation,
-	 * unless {@link #makeCurrent()} is called manually.
-	 * @return
-	 */
-	public static Core getCurrent() {
-		return current;
+	/** Color depth */
+	private final int colorDepth;
+	
+	/** Screen refresh rate */
+	private final int refreshRate;
+	
+	/** Is fullscreen? */
+	private final boolean fullscreen;
+
+	public DisplayMode(int width, int height, boolean fullscreen) {
+		this(width, height, fullscreen, DEFAULT_COLOR_DEPTH, DEFAULT_REFRESH_RATE);
+	}
+	
+	public DisplayMode(int width, int height, boolean fullscreen, int colorDepth) {
+		this(width, height, fullscreen, colorDepth, DEFAULT_REFRESH_RATE);
+	}
+	
+	public DisplayMode(int width, int height, boolean fullscreen, int colorDepth, int refreshRate) {
+		this.width = width;
+		this.height = height;
+		this.fullscreen = fullscreen;
+		this.colorDepth = colorDepth;
+		this.refreshRate = refreshRate;
 	}
 	
 	/**
-	 * Makes the current Core implementation current.
-	 * <p>
-	 * If you're using only one implementation of Core then
-	 * this is probably not what you want to do.
+	 * @return the colorDepth
 	 */
-	public void makeCurrent() {
-		Core.current = this;
+	public int getColorDepth() {
+		return colorDepth;
 	}
 	
-	public abstract FilledRect newFilledRect();
+	/**
+	 * @return the height
+	 */
+	public int getHeight() {
+		return height;
+	}
 	
-	public abstract Window newWindow();
+	/**
+	 * @return the refreshRate
+	 */
+	public int getRefreshRate() {
+		return refreshRate;
+	}
 	
-	public abstract Graphics newGraphics();
+	/**
+	 * @return the width
+	 */
+	public int getWidth() {
+		return width;
+	}
+	
+	/**
+	 * @return the fullscreen
+	 */
+	public boolean isFullscreen() {
+		return fullscreen;
+	}
 	
 }

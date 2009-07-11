@@ -26,48 +26,52 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package pl.graniec.atlantis;
+package pl.graniec.atlantis.drawables;
 
-import pl.graniec.atlantis.drawables.FilledRect;
+import pl.graniec.atlantis.Drawable;
+import pl.graniec.atlantis.animation.Color;
+import pl.graniec.atlantis.animation.Fixed;
 
 /**
- * Core of Atlantis engine. The Core will provide all implementations
- * for Atiantis interface. All you must do is to instance Core
- * implementation of your choice.
- * 
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public abstract class Core {
+public abstract class FilledRect extends Drawable {
+
+	/** Fill color */
+	public Color fillColor = new Color();
 	
-	/** Current Core */
-	private static Core current;
+	/** X position of rectangle */
+	public Fixed x = new Fixed();
 	
+	/** Y position of rectangle */
+	public Fixed y = new Fixed();
+	
+	/** Width of rectangle */
+	public Fixed width = new Fixed();
+	
+	/** Height of rectangle */
+	public Fixed height = new Fixed();
+
 	/**
-	 * Provides the current Core object.
-	 * <p>
-	 * Usually it contains first created Core implementation,
-	 * unless {@link #makeCurrent()} is called manually.
-	 * @return
+	 * @param fillColor the fillColor to set
 	 */
-	public static Core getCurrent() {
-		return current;
+	public void setFillColor(Color fillColor) {
+		this.fillColor = fillColor;
+	}
+
+	/**
+	 * @return the fillColor
+	 */
+	public Color getFillColor() {
+		return fillColor;
 	}
 	
-	/**
-	 * Makes the current Core implementation current.
-	 * <p>
-	 * If you're using only one implementation of Core then
-	 * this is probably not what you want to do.
-	 */
-	public void makeCurrent() {
-		Core.current = this;
+	public void setGeometry(double x, double y, double width, double height) {
+		this.x.set(x);
+		this.y.set(y);
+		this.width.set(width);
+		this.height.set(height);
 	}
-	
-	public abstract FilledRect newFilledRect();
-	
-	public abstract Window newWindow();
-	
-	public abstract Graphics newGraphics();
-	
+
 }

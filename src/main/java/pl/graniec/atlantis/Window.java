@@ -28,46 +28,49 @@
  */
 package pl.graniec.atlantis;
 
-import pl.graniec.atlantis.drawables.FilledRect;
-
 /**
- * Core of Atlantis engine. The Core will provide all implementations
- * for Atiantis interface. All you must do is to instance Core
- * implementation of your choice.
+ * The application window. This is the place where graphics will
+ * be drew.
  * 
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public abstract class Core {
-	
-	/** Current Core */
-	private static Core current;
+public interface Window {
 	
 	/**
-	 * Provides the current Core object.
-	 * <p>
-	 * Usually it contains first created Core implementation,
-	 * unless {@link #makeCurrent()} is called manually.
-	 * @return
+	 * Provides all available display modes that this window
+	 * can be set to.
+	 * 
+	 * @return All available displays modes.
 	 */
-	public static Core getCurrent() {
-		return current;
-	}
+	DisplayMode[] getAvailableDisplayModes();
 	
 	/**
-	 * Makes the current Core implementation current.
-	 * <p>
-	 * If you're using only one implementation of Core then
-	 * this is probably not what you want to do.
+	 * @return current window title.
 	 */
-	public void makeCurrent() {
-		Core.current = this;
-	}
+	String getTitle();
 	
-	public abstract FilledRect newFilledRect();
+	/**
+	 * Sets the display mode for this window.
+	 * The safest way to change the display mode is
+	 * to do this before the window is actually visible
+	 * on screen. Some implementations may fail when
+	 * change will be done on fly.
+	 * 
+	 * @param mode Display mode to set.
+	 */
+	void setDisplayMode(DisplayMode mode);
 	
-	public abstract Window newWindow();
+	/**
+	 * Sets the window title.
+	 * 
+	 * @param title The window title to set.
+	 */
+	void setTitle(String title);
 	
-	public abstract Graphics newGraphics();
-	
+	/**
+	 * Shows the actual application window. It cannot be
+	 * hidden until application stops.
+	 */
+	void show();
 }
