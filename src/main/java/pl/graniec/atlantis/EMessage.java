@@ -53,8 +53,4 @@ public class EMessage {
 		
 		return buf.toString();
 	}
-	
-	public static void main(String[] args) {
-		System.out.println(prepare("abc", new Exception("aaa")));
-	}
 }

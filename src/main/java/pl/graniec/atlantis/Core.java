@@ -29,6 +29,7 @@
 package pl.graniec.atlantis;
 
 import pl.graniec.atlantis.drawables.FilledRect;
+import pl.graniec.atlantis.effects.ColorDesaturate;
 import pl.graniec.atlantis.effects.ColorInvert;
 
 /**
@@ -65,10 +66,12 @@ public abstract class Core {
 		Core.current = this;
 	}
 	
+	public abstract ColorDesaturate newColorDesaturate();
+	
+	public abstract ColorInvert newColorInvert();
+	
 	public abstract FilledRect newFilledRect();
 	
 	public abstract Window newWindow();
-	
-	public abstract ColorInvert newColorInvert();
 	
 }

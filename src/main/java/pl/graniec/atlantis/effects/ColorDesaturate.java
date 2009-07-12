@@ -26,79 +26,12 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package pl.graniec.atlantis.drawables;
-
-import pl.graniec.atlantis.Drawable;
-import pl.graniec.atlantis.Stage;
-import pl.graniec.atlantis.animation.Color;
-import pl.graniec.atlantis.animation.Fixed;
+package pl.graniec.atlantis.effects;
 
 /**
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public abstract class FilledRect extends Drawable {
-
-	/** Fill color */
-	public Color fillColor = new Color();
-	
-	/** X position of rectangle */
-	public Fixed x = new Fixed();
-	
-	/** Y position of rectangle */
-	public Fixed y = new Fixed();
-	
-	/** Width of rectangle */
-	public Fixed width = new Fixed();
-	
-	/** Height of rectangle */
-	public Fixed height = new Fixed();
-
-	/**
-	 * 
-	 */
-	public FilledRect() {
-		x.set(0);
-		y.set(0);
-		width.set(Stage.getWidth());
-		height.set(Stage.getHeight());
-	}
-	
-	/**
-	 * @param fillColor the fillColor to set
-	 */
-	public void setFillColor(Color fillColor) {
-		this.fillColor = fillColor;
-	}
-	
-	public void setFillColor(int color) {
-		this.fillColor.set(color);
-	}
-
-	/**
-	 * @return the fillColor
-	 */
-	public Color getFillColor() {
-		return fillColor;
-	}
-	
-	public void setGeometry(double x, double y, double width, double height) {
-		this.x.set(x);
-		this.y.set(y);
-		this.width.set(width);
-		this.height.set(height);
-	}
-	
-	/* (non-Javadoc)
-	 * @see pl.graniec.atlantis.Drawable#update(int)
-	 */
-	@Override
-	public void update(int elapsedTime) {
-		x.update(elapsedTime);
-		y.update(elapsedTime);
-		width.update(elapsedTime);
-		height.update(elapsedTime);
-		fillColor.update(elapsedTime);
-	}
+public abstract class ColorDesaturate extends Effect {
 
 }
