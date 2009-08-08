@@ -26,78 +26,86 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package pl.graniec.atlantis;
+package pl.graniec.atlantis.drawables;
 
-import java.util.Stack;
 import java.util.logging.Logger;
 
-import pl.graniec.atlantis.animation.Int;
-import pl.graniec.atlantis.effects.Effect;
+import pl.graniec.atlantis.Drawable;
+import pl.graniec.atlantis.Graphics;
+import pl.graniec.atlantis.animation.Color;
+import pl.graniec.atlantis.animation.Fixed;
 
 /**
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public abstract class Drawable {
+public class Line extends Drawable {
+	@SuppressWarnings("unused")
+	private static final Logger logger = Logger.getLogger(Line.class.getName());
 	
-	private static final Logger logger = Logger.getLogger(Drawable.class.getName());
+	/** The color of beginning of line */
+	public final Color aColor = new Color();
 	
-	public final Int alpha = new Int(0xff);
+	/** The X coordinate of beginning of line */
+	public final Fixed aX = new Fixed();
 	
-	private Stack<Effect> effectStack = new Stack<Effect>();
+	/** The Y coordinate of beginning of line */
+	public final Fixed aY = new Fixed();
+	
+	/** The color of end of line */
+	public final Color bColor = new Color();
+	
+	/** The X coordinate of end of line */
+	public final Fixed bX = new Fixed();
+	
+	/** The Y coordinate of end of line */
+	public final Fixed bY = new Fixed();
 
-	/** Information about object disposal */
-	private volatile boolean disposed;
-	
-	public void addEffect(Effect effect) {
-		synchronized (effectStack) {
-			effectStack.add(effect);
-		}
-	}
-	
-	public void clearEffects() {
-		synchronized (effectStack) {
-			effectStack.clear();
-		}
-	}
-	
-	/**
-	 * Draws the drawable object into a scene.
-	 * 
-	 * @param g The graphics context.
+	/* (non-Javadoc)
+	 * @see pl.graniec.atlantis.Drawable#draw(pl.graniec.atlantis.Graphics)
 	 */
-	public abstract void draw(Graphics g);
+	@Override
+	public void draw(Graphics g) {
 
-	protected Effect[] getEffectStack() {
-		synchronized (effectStack) {
-			return effectStack.toArray(new Effect[effectStack.size()]);
-		}
 	}
 	
-	/**
-	 * @param timeElapsed
-	 */
-	public void update(int elapsedTime) {
-		for (final Effect e : effectStack) {
-			e.update(elapsedTime);
-		}
+	public void setColor(Color color) {
+		setColor(color.get());
 	}
 	
-	public void dispose() {
-		if (Build.DEBUG) {
-			disposed = true;
-		}
+	public void setColor(Color aColor, Color bColor) {
+		setColor(aColor.get(), bColor.get());
+	}
+	
+	public void setColor(int color) {
+		this.aColor.set(color);
+		this.bColor.set(color);
+	}
+	
+	public void setColor(int aColor, int bColor) {
+		this.aColor.set(aColor);
+		this.bColor.set(bColor);
+	}
+	
+	public void setPosition(double ax, double ay, double bx, double by) {
+		this.aX.set(ax);
+		this.aY.set(ay);
+		this.bX.set(bx);
+		this.bY.set(by);
 	}
 	
 	/* (non-Javadoc)
-	 * @see java.lang.Object#finalize()
+	 * @see pl.graniec.atlantis.Drawable#update(int)
 	 */
 	@Override
-	protected void finalize() throws Throwable {
-		if (Build.DEBUG) {
-			if (!disposed) {
-				logger.severe("object not disposed properly");
-			}
-		}
+	public void update(int elapsedTime) {
+		super.update(elapsedTime);
+		
+		aColor.update(elapsedTime);
+		aX.update(elapsedTime);
+		aY.update(elapsedTime);
+		bColor.update(elapsedTime);
+		bX.update(elapsedTime);
+		bY.update(elapsedTime);
 	}
 }

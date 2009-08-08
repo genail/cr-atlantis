@@ -28,62 +28,38 @@
  */
 package pl.graniec.atlantis;
 
-import pl.graniec.atlantis.drawables.FilledRect;
-import pl.graniec.atlantis.drawables.ImageSprite;
-import pl.graniec.atlantis.drawables.Line;
-import pl.graniec.atlantis.effects.ColorDesaturate;
-import pl.graniec.atlantis.effects.ColorInvert;
-import pl.graniec.atlantis.effects.HorizontalBlur;
-import pl.graniec.atlantis.effects.VerticalBlur;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.logging.Logger;
 
 /**
- * Core of Atlantis engine. The Core will provide all implementations
- * for Atiantis interface. All you must do is to instance Core
- * implementation of your choice.
- * 
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public abstract class Core {
+public class Utils {
 	
-	/** Current Core */
-	private static Core current;
+	private static final Logger logger = Logger.getLogger(Utils.class.getName());
 	
-	/**
-	 * Provides the current Core object.
-	 * <p>
-	 * Usually it contains first created Core implementation,
-	 * unless {@link #makeCurrent()} is called manually.
-	 * @return
-	 */
-	public static Core getCurrent() {
-		return current;
+	public static URL pathToUrl(String path) {
+		
+		final String CLASSPATH_PREFIX = "classpath:";
+		final String FILE_PREFIX = "file:";
+		
+		try {
+			if (path.substring(0, CLASSPATH_PREFIX.length()).equals(CLASSPATH_PREFIX)) {
+				return path.getClass().getResource(path.substring(CLASSPATH_PREFIX.length()));
+			} else if (path.substring(0, FILE_PREFIX.length()).equals(FILE_PREFIX)) {
+				return new File(path.substring(FILE_PREFIX.length())).toURI().toURL();
+			} else {
+				return new File(path).toURI().toURL();
+			}
+		} catch (MalformedURLException e) {
+			if (Build.DEBUG) {
+				logger.severe(EMessage.prepare("cannot point to file: " + path, e));
+			}
+		}
+		
+		return null;
 	}
-	
-	/**
-	 * Makes the current Core implementation current.
-	 * <p>
-	 * If you're using only one implementation of Core then
-	 * this is probably not what you want to do.
-	 */
-	public void makeCurrent() {
-		Core.current = this;
-	}
-	
-	public abstract ColorDesaturate newColorDesaturate();
-	
-	public abstract ColorInvert newColorInvert();
-	
-	public abstract FilledRect newFilledRect();
-	
-	public abstract HorizontalBlur newHorizontalBlur();
-	
-	public abstract ImageSprite newImageSprite(String path);
-	
-	public abstract Line newLine();
-	
-	public abstract VerticalBlur newVerticalBlur();
-	
-	public abstract Window newWindow();
-	
 }

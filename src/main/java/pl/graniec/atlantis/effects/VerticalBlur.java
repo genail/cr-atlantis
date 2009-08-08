@@ -26,64 +26,29 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package pl.graniec.atlantis;
+package pl.graniec.atlantis.effects;
 
-import pl.graniec.atlantis.drawables.FilledRect;
-import pl.graniec.atlantis.drawables.ImageSprite;
-import pl.graniec.atlantis.drawables.Line;
-import pl.graniec.atlantis.effects.ColorDesaturate;
-import pl.graniec.atlantis.effects.ColorInvert;
-import pl.graniec.atlantis.effects.HorizontalBlur;
-import pl.graniec.atlantis.effects.VerticalBlur;
+import java.util.logging.Logger;
+
+import pl.graniec.atlantis.animation.Int;
 
 /**
- * Core of Atlantis engine. The Core will provide all implementations
- * for Atiantis interface. All you must do is to instance Core
- * implementation of your choice.
- * 
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public abstract class Core {
+public class VerticalBlur extends Effect {
+	@SuppressWarnings("unused")
+	private static final Logger logger = Logger.getLogger(VerticalBlur.class.getName());
 	
-	/** Current Core */
-	private static Core current;
+	/** Blur radius */
+	public Int radius = new Int();
 	
-	/**
-	 * Provides the current Core object.
-	 * <p>
-	 * Usually it contains first created Core implementation,
-	 * unless {@link #makeCurrent()} is called manually.
-	 * @return
+	/* (non-Javadoc)
+	 * @see pl.graniec.atlantis.effects.Effect#update(int)
 	 */
-	public static Core getCurrent() {
-		return current;
+	@Override
+	public void update(int elapsedTime) {
+		super.update(elapsedTime);
+		radius.update(elapsedTime);
 	}
-	
-	/**
-	 * Makes the current Core implementation current.
-	 * <p>
-	 * If you're using only one implementation of Core then
-	 * this is probably not what you want to do.
-	 */
-	public void makeCurrent() {
-		Core.current = this;
-	}
-	
-	public abstract ColorDesaturate newColorDesaturate();
-	
-	public abstract ColorInvert newColorInvert();
-	
-	public abstract FilledRect newFilledRect();
-	
-	public abstract HorizontalBlur newHorizontalBlur();
-	
-	public abstract ImageSprite newImageSprite(String path);
-	
-	public abstract Line newLine();
-	
-	public abstract VerticalBlur newVerticalBlur();
-	
-	public abstract Window newWindow();
-	
 }

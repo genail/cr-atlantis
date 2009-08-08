@@ -50,5 +50,11 @@ public abstract class Effect {
 	public boolean isEnabled() {
 		return enabled;
 	}
+
+	/**
+	 * @param elapsedTime
+	 */
+	public void update(int elapsedTime) {
+	}
 	
 }

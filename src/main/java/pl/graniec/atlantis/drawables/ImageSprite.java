@@ -26,64 +26,47 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
  * POSSIBILITY OF SUCH DAMAGE.
  */
-package pl.graniec.atlantis;
+package pl.graniec.atlantis.drawables;
 
-import pl.graniec.atlantis.drawables.FilledRect;
-import pl.graniec.atlantis.drawables.ImageSprite;
-import pl.graniec.atlantis.drawables.Line;
-import pl.graniec.atlantis.effects.ColorDesaturate;
-import pl.graniec.atlantis.effects.ColorInvert;
-import pl.graniec.atlantis.effects.HorizontalBlur;
-import pl.graniec.atlantis.effects.VerticalBlur;
+import pl.graniec.atlantis.Drawable;
+import pl.graniec.atlantis.animation.Fixed;
 
 /**
- * Core of Atlantis engine. The Core will provide all implementations
- * for Atiantis interface. All you must do is to instance Core
- * implementation of your choice.
- * 
  * @author Piotr Korzuszek <piotr.korzuszek@gmail.com>
  *
  */
-public abstract class Core {
+public abstract class ImageSprite extends Drawable {
 	
-	/** Current Core */
-	private static Core current;
+	/** X position of rectangle */
+	public Fixed x = new Fixed();
 	
-	/**
-	 * Provides the current Core object.
-	 * <p>
-	 * Usually it contains first created Core implementation,
-	 * unless {@link #makeCurrent()} is called manually.
-	 * @return
-	 */
-	public static Core getCurrent() {
-		return current;
+	/** Y position of rectangle */
+	public Fixed y = new Fixed();
+	
+	/** Width of rectangle */
+	public Fixed width = new Fixed();
+	
+	/** Height of rectangle */
+	public Fixed height = new Fixed();
+	
+	public void setGeometry(double x, double y, double width, double height) {
+		this.x.set(x);
+		this.y.set(y);
+		this.width.set(width);
+		this.height.set(height);
 	}
 	
-	/**
-	 * Makes the current Core implementation current.
-	 * <p>
-	 * If you're using only one implementation of Core then
-	 * this is probably not what you want to do.
+	/* (non-Javadoc)
+	 * @see pl.graniec.atlantis.Drawable#update(int)
 	 */
-	public void makeCurrent() {
-		Core.current = this;
+	@Override
+	public void update(int elapsedTime) {
+		super.update(elapsedTime);
+		
+		x.update(elapsedTime);
+		y.update(elapsedTime);
+		width.update(elapsedTime);
+		height.update(elapsedTime);
 	}
-	
-	public abstract ColorDesaturate newColorDesaturate();
-	
-	public abstract ColorInvert newColorInvert();
-	
-	public abstract FilledRect newFilledRect();
-	
-	public abstract HorizontalBlur newHorizontalBlur();
-	
-	public abstract ImageSprite newImageSprite(String path);
-	
-	public abstract Line newLine();
-	
-	public abstract VerticalBlur newVerticalBlur();
-	
-	public abstract Window newWindow();
-	
+
 }
